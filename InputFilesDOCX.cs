@@ -41,7 +41,7 @@ namespace InputFilesDOCX
 
         public string PluginName { get; } = "Load .docx Files from Folder";
         public string PluginType { get; } = "Load File(s)";
-        public string PluginVersion { get; } = "1.0.4";
+        public string PluginVersion { get; } = "1.0.5";
         public string PluginAuthor { get; } = "Ryan L. Boyd (ryan@ryanboyd.io)";
         public string PluginDescription { get; } = "This plugin will read texts from .docx files contained within a folder. This plugin should always be at the top level of your Analysis Pipeline. For example:" + Environment.NewLine + Environment.NewLine + Environment.NewLine +
             "\tLoad .docx Files from Folder" + Environment.NewLine +
@@ -103,7 +103,7 @@ namespace InputFilesDOCX
                 pData.FileID = Path.GetFileName((string)Incoming.ObjectList[0]);
 
                 //https://docs.microsoft.com/en-us/office/open-xml/how-to-open-a-word-processing-document-for-read-only-access
-                Stream stream = File.Open(Incoming.ObjectList[0].ToString(), FileMode.Open);
+                using (Stream stream = File.Open(Incoming.ObjectList[0].ToString(), FileMode.Open))
                 using (WordprocessingDocument wordDocument = WordprocessingDocument.Open(stream, false))
                 {
                     StringBuilder docxText = new StringBuilder();
@@ -121,6 +121,7 @@ namespace InputFilesDOCX
 
                 }
 
+                
                 
 
             }
